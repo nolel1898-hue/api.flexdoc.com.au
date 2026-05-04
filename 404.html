@@ -1,45 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecting...</title>
+    <title>Redirecting to Post...</title>
     <meta name="robots" content="noindex, follow">
     
     <script>
-        // 1. قائمة المجلدات التي تحتوي على منشوراتك (عدل الأسماء هنا)
-        const folders = ['posts', 'articles', 'blog', 'news', 'archive'];
-
-        // 2. قائمة بأسماء الملفات (يفضل أن تكون قائمة كبيرة لزيادة التنوع)
-        // إذا كانت أسماء ملفاتك تتبع نمطاً معيناً، يمكنك إضافتها هنا
-        const pages = [
-            'tech-donations-2026',
-            'software-guide-nonprofit',
-            'digital-transformation-tips',
-            'it-security-best-practices',
-            'fundraising-templates-v1',
-            'how-to-apply-for-grants'
-            // أضف المزيد من الأسماء هنا بدون .html
+        // 1. تعريف المجلدات العميقة التي تظهر في الصورة
+        // أضف أي مجلد جديد تفتحه هنا
+        const baseFolders = [
+            'jhm/afi', 
+            'qmb/jxz'
         ];
 
-        function redirectToRandomPage() {
-            // اختيار مجلد عشوائي
-            const randomFolder = folders[Math.floor(Math.random() * folders.length)];
-            // اختيار صفحة عشوائية
-            const randomPage = pages[Math.floor(Math.random() * pages.length)];
-            
-            // بناء الرابط النهائي
-            // سيصبح الشكل مثلاً: /posts/tech-donations-2026.html
-            const finalUrl = "/" + randomFolder + "/" + randomPage + ".html";
+        // 2. أسماء الملفات التي يتم إنشاؤها داخل تلك المجلدات
+        // يمكنك وضع أسماء المقالات التي تم توليدها
+        const articleFiles = [
+            'post1', 'post2', 'article-2026', 'tech-news'
+            // أضف قائمة بأسماء الملفات (بدون .html)
+        ];
 
-            // التوجيه التلقائي
-            window.location.href = finalUrl;
+        function getSmartRedirect() {
+            // اختيار مسار مجلد عشوائي من القائمة
+            const folder = baseFolders[Math.floor(Math.random() * baseFolders.length)];
+            
+            // اختيار ملف عشوائي
+            const file = articleFiles[Math.floor(Math.random() * articleFiles.length)];
+
+            // بناء الرابط النهائي
+            // النتيجة ستكون مثلاً: /jhm/afi/post1.html
+            return `/${folder}/${file}.html`;
         }
 
-        // تنفيذ التوجيه بمجرد تحميل الصفحة
-        window.onload = redirectToRandomPage;
+        function doRedirect() {
+            const target = getSmartRedirect();
+            console.log("Redirecting to: " + target);
+            window.location.href = target;
+        }
+
+        window.onload = doRedirect;
     </script>
 </head>
 <body>
-    <p>Loading requested resource... If you are not redirected, <a href="/">click here</a>.</p>
+    <div style="text-align: center; margin-top: 20%; font-family: sans-serif;">
+        <p>جاري تحويلك إلى صفحة ذات صلة...</p>
+        <img src="https://i.gifer.com/ZZ5H.gif" width="50"> </div>
 </body>
 </html>
