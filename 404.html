@@ -1,49 +1,17 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>Redirecting to Post...</title>
-    <meta name="robots" content="noindex, follow">
+import os
+
+def update_url_list():
+    all_urls = []
+    # البحث في كل المجلدات والملفات
+    for root, dirs, files in os.walk("."):
+        for file in files:
+            if file.endswith(".html") and file != "404.html" and file != "index.html":
+                # تحويل مسار الملف إلى رابط
+                path = os.path.join(root, file).replace("\\", "/").replace("./", "/")
+                all_urls.append(path)
     
-    <script>
-        // 1. تعريف المجلدات العميقة التي تظهر في الصورة
-        // أضف أي مجلد جديد تفتحه هنا
-        const baseFolders = [
-            'jhm/afi', 
-            'qmb/jxz'
-        ];
+    # حفظ الروابط في ملف نصي
+    with open("urls.txt", "w") as f:
+        f.write("\n".join(all_urls))
 
-        // 2. أسماء الملفات التي يتم إنشاؤها داخل تلك المجلدات
-        // يمكنك وضع أسماء المقالات التي تم توليدها
-        const articleFiles = [
-            'post1', 'post2', 'article-2026', 'tech-news'
-            // أضف قائمة بأسماء الملفات (بدون .html)
-        ];
-
-        function getSmartRedirect() {
-            // اختيار مسار مجلد عشوائي من القائمة
-            const folder = baseFolders[Math.floor(Math.random() * baseFolders.length)];
-            
-            // اختيار ملف عشوائي
-            const file = articleFiles[Math.floor(Math.random() * articleFiles.length)];
-
-            // بناء الرابط النهائي
-            // النتيجة ستكون مثلاً: /jhm/afi/post1.html
-            return `/${folder}/${file}.html`;
-        }
-
-        function doRedirect() {
-            const target = getSmartRedirect();
-            console.log("Redirecting to: " + target);
-            window.location.href = target;
-        }
-
-        window.onload = doRedirect;
-    </script>
-</head>
-<body>
-    <div style="text-align: center; margin-top: 20%; font-family: sans-serif;">
-        <p>جاري تحويلك إلى صفحة ذات صلة...</p>
-        <img src="https://i.gifer.com/ZZ5H.gif" width="50"> </div>
-</body>
-</html>
+update_url_list()
