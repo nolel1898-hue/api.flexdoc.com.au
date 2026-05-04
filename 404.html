@@ -1,49 +1,45 @@
-<?php
-// دالة لاستدعاء كل ملفات HTML داخل المجلدات الفرعية
-function getHtmlFiles($dir) {
-    $files = [];
-    $items = scandir($dir); // جلب كل العناصر داخل المجلد
-    foreach ($items as $item) {
-        if ($item === '.' || $item === '..') continue; // تجاهل المجلدات الخاصة
-        $path = $dir . '/' . $item;
-        if (is_dir($path)) {
-            // إذا كان مجلد، استدعاء الدالة بشكل متكرر
-            $files = array_merge($files, getHtmlFiles($path));
-        } elseif (substr($item, -5) === '.html') {
-            // إذا كانت صفحة HTML، أضفها للقائمة
-            $files[] = $path;
-        }
-    }
-    return $files;
-}
-
-// تحديد مجلد الجذر (حيث توجد الصفحات)
-$rootDir = __DIR__;
-
-// جلب كل ملفات HTML داخل الموقع
-$htmlFiles = getHtmlFiles($rootDir);
-
-if (!empty($htmlFiles)) {
-    // اختيار صفحة عشوائية
-    $randomFile = $htmlFiles[array_rand($htmlFiles)];
-
-    // تحويل المستخدم للصفحة العشوائية
-    // استخراج المسار النسبي من المجلد الجذر لتجنب مشاكل URLs
-    $relativePath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $randomFile);
-    header("Location: $relativePath");
-    exit;
-} else {
-    // إذا لم توجد صفحات HTML
-    echo "<!DOCTYPE html>
-<html lang='ar'>
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset='UTF-8'>
-    <title>صفحة غير موجودة</title>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <meta name="robots" content="noindex, follow">
+    
+    <script>
+        // 1. قائمة المجلدات التي تحتوي على منشوراتك (عدل الأسماء هنا)
+        const folders = ['posts', 'articles', 'blog', 'news', 'archive'];
+
+        // 2. قائمة بأسماء الملفات (يفضل أن تكون قائمة كبيرة لزيادة التنوع)
+        // إذا كانت أسماء ملفاتك تتبع نمطاً معيناً، يمكنك إضافتها هنا
+        const pages = [
+            'tech-donations-2026',
+            'software-guide-nonprofit',
+            'digital-transformation-tips',
+            'it-security-best-practices',
+            'fundraising-templates-v1',
+            'how-to-apply-for-grants'
+            // أضف المزيد من الأسماء هنا بدون .html
+        ];
+
+        function redirectToRandomPage() {
+            // اختيار مجلد عشوائي
+            const randomFolder = folders[Math.floor(Math.random() * folders.length)];
+            // اختيار صفحة عشوائية
+            const randomPage = pages[Math.floor(Math.random() * pages.length)];
+            
+            // بناء الرابط النهائي
+            // سيصبح الشكل مثلاً: /posts/tech-donations-2026.html
+            const finalUrl = "/" + randomFolder + "/" + randomPage + ".html";
+
+            // التوجيه التلقائي
+            window.location.href = finalUrl;
+        }
+
+        // تنفيذ التوجيه بمجرد تحميل الصفحة
+        window.onload = redirectToRandomPage;
+    </script>
 </head>
 <body>
-    <h1>صفحة غير موجودة!</h1>
-    <p>لا توجد صفحات داخلية لإعادة التوجيه.</p>
+    <p>Loading requested resource... If you are not redirected, <a href="/">click here</a>.</p>
 </body>
-</html>";
-}
-?>
+</html>
